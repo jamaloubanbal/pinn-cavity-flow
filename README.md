@@ -11,18 +11,18 @@ Re = 100, using pure PyTorch — no external CFD library.
 The steady, incompressible Navier-Stokes equations on the unit square
 $\Omega = [0,1]^2$:
 
-$$\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
-\quad \text{(continuity)}$$
-
-$$u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y}
-+ \frac{\partial p}{\partial x}
-- \nu\!\left(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\right) = 0
-\quad \text{(x-momentum)}$$
+$$
+\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
+\quad \text{(continuity)}
+$$
 
 $$
-u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y}
-+ \frac{\partial p}{\partial y}
-- \nu\!\left(\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2}\right) = 0
+u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y} + \frac{\partial p}{\partial x} - \nu\!\left(\frac{\partial^2 u}{\partial x^2} + \frac{\partial^2 u}{\partial y^2}\right) = 0
+\quad \text{(x-momentum)}
+$$
+
+$$
+u\frac{\partial v}{\partial x} + v\frac{\partial v}{\partial y} + \frac{\partial p}{\partial y} - \nu\!\left(\frac{\partial^2 v}{\partial x^2} + \frac{\partial^2 v}{\partial y^2}\right) = 0
 \quad \text{(y-momentum)}
 $$
 
