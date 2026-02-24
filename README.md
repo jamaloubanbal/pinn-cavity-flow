@@ -11,10 +11,8 @@ Re = 100, using pure PyTorch — no external CFD library.
 The steady, incompressible Navier-Stokes equations on the unit square
 $\Omega = [0,1]^2$:
 
-$$
-\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
-\quad \text{(continuity)}
-$$
+$$\frac{\partial u}{\partial x} + \frac{\partial v}{\partial y} = 0
+\quad \text{(continuity)}$$
 
 $$
 u\frac{\partial u}{\partial x} + v\frac{\partial u}{\partial y}
