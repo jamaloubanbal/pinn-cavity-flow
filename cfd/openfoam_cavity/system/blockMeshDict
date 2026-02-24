@@ -1,0 +1,72 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2512                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+//
+// Lid-driven cavity  Re = 100
+//   Domain  : [0,1] x [0,1]  (unit square, matches PINN domain)
+//   Mesh    : 100 x 100 uniform cells  (comparable to Ghia 128x128)
+//   z-slab  : [0, 0.1]  (thin, empty BCs = 2D)
+//
+// Re = L*U/nu = 1 * 1 / 0.01 = 100
+// ---------------------------------------------------------------------------
+
+scale   1.0;
+
+vertices
+(
+    (0  0  0  )   // 0
+    (1  0  0  )   // 1
+    (1  1  0  )   // 2
+    (0  1  0  )   // 3
+    (0  0  0.1)   // 4
+    (1  0  0.1)   // 5
+    (1  1  0.1)   // 6
+    (0  1  0.1)   // 7
+);
+
+blocks
+(
+    hex (0 1 2 3 4 5 6 7) (100 100 1) simpleGrading (1 1 1)
+);
+
+edges ();
+
+boundary
+(
+    movingWall         // top lid  y = 1  → u = 1, v = 0
+    {
+        type wall;
+        faces ( (3 7 6 2) );
+    }
+    fixedWalls         // left (x=0), right (x=1), bottom (y=0)  → no-slip
+    {
+        type wall;
+        faces
+        (
+            (0 4 7 3)   // left
+            (2 6 5 1)   // right
+            (1 5 4 0)   // bottom
+        );
+    }
+    frontAndBack
+    {
+        type empty;
+        faces
+        (
+            (0 3 2 1)   // front  z = 0
+            (4 5 6 7)   // back   z = 0.1
+        );
+    }
+);
+
+// ************************************************************************* //

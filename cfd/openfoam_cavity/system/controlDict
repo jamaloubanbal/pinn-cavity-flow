@@ -1,0 +1,98 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2512                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      controlDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+application     icoFoam;
+
+startFrom       startTime;
+startTime       0;
+
+stopAt          endTime;
+endTime         25;        // Re=100 cavity is steady before t=15
+
+deltaT          0.005;     // CFL = U*dt/dx = 1*0.005/0.01 = 0.5  (fine for PISO)
+
+writeControl    timeStep;
+writeInterval   1000;      // Write every 5 s  (saves disk space)
+purgeWrite      3;         // Keep only the last 3 snapshots
+
+writeFormat     ascii;
+writePrecision  10;
+writeCompression off;
+
+timeFormat      general;
+timePrecision   8;
+
+runTimeModifiable true;
+
+// ---------------------------------------------------------------------------
+//  Function objects
+// ---------------------------------------------------------------------------
+functions
+{
+    // -- Residual monitor (printed every 500 steps = 1 s) ------------------
+    residuals
+    {
+        type            residuals;
+        libs            (utilityFunctionObjects);
+        enabled         true;
+        writeControl    timeStep;
+        writeInterval   500;
+        fields          (U p);
+    }
+
+    // -- Centreline sampling (written once at the end) ---------------------
+    sample
+    {
+        type                sets;
+        libs                (sampling);
+        enabled             true;
+        writeControl        onEnd;
+        interpolationScheme cellPoint;
+        setFormat           csv;
+        fields              (U p);
+
+        sets
+        (
+            // Vertical centreline  x = 0.5,  y in [0, 1]
+            verticalCentreline
+            {
+                type    uniform;
+                axis    y;
+                start   (0.5  0.0  0.05);
+                end     (0.5  1.0  0.05);
+                nPoints 201;
+            }
+            // Horizontal centreline  y = 0.5,  x in [0, 1]
+            horizontalCentreline
+            {
+                type    uniform;
+                axis    x;
+                start   (0.0  0.5  0.05);
+                end     (1.0  0.5  0.05);
+                nPoints 201;
+            }
+        );
+    }
+
+    // -- Write cell centres (needed for 2-D field comparison) --------------
+    writeCellCentres
+    {
+        type            writeCellCentres;
+        libs            (fieldFunctionObjects);
+        enabled         true;
+        writeControl    onEnd;
+    }
+}
+
+// ************************************************************************* //

@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+.venv/
+venv/
+env/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Local tooling
+.claude/
+.qodo/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+
+# Generated PINN outputs
+results/**/*.png
+results/**/*.jpg
+results/**/*.jpeg
+results/**/*.npy
+results/**/*.pt
+results/**/*.pth
+
+# Keep docs/placeholders under results
+!results/README.md
+!results/.gitkeep
+!results/comparison/.gitkeep
+
+# OpenFOAM generated outputs (keep case setup files)
+cfd/openfoam_cavity/[1-9]*/
+cfd/openfoam_cavity/[0-9][0-9]*/
+cfd/openfoam_cavity/[0-9][0-9][0-9]*/
+cfd/openfoam_cavity/log.*
+cfd/openfoam_cavity/postProcessing/
+cfd/openfoam_cavity/constant/polyMesh/
+
+# Code_Saturne generated outputs (keep DATA/SRC templates)
+cfd/cs_cavity/cavity/RESU/
+cfd/cs_cavity/cavity/DATA/cavity.msh

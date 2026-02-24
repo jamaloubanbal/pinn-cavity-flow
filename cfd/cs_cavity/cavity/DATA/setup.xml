@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><Code_Saturne_GUI case="cavity" solver_version="" study="cs_cavity" version="2.0">
+  <analysis_control>
+    <time_parameters>
+      <iterations>5000</iterations>
+      <time_passing>0</time_passing>
+      <time_step_ref>0.005</time_step_ref>
+    </time_parameters>
+  </analysis_control>
+  <calculation_management/>
+  <solution_domain>
+    <meshes_list>
+      <mesh name="cavity.msh"/>
+    </meshes_list>
+    <volumic_conditions>
+      <zone label="all_cells" id="1" initialization="on" physical_properties="on">all[]</zone>
+    </volumic_conditions>
+  </solution_domain>
+  <thermophysical_models>
+    <turbulence model="off">
+      <initialization zone_id="1" choice="reference_value"/>
+      <reference_velocity>1</reference_velocity>
+      <wall_function>0</wall_function>
+    </turbulence>
+    <velocity_pressure>
+      <property label="Pressure" name="pressure"/>
+      <property label="Velocity" name="velocity"/>
+    </velocity_pressure>
+  </thermophysical_models>
+  <physical_properties>
+    <fluid_properties>
+      <property choice="constant" label="Density" name="density">
+        <initial_value>1.0</initial_value>
+      </property>
+      <property choice="constant" label="LaminarViscosity" name="molecular_viscosity">
+        <initial_value>0.01</initial_value>
+      </property>
+    </fluid_properties>
+  </physical_properties>
+  <boundary_conditions>
+    <boundary label="top_lid"  name="1" nature="wall">1</boundary>
+    <boundary label="no_slip"  name="2" nature="wall">2</boundary>
+    <boundary label="symmetry" name="3" nature="symmetry">3</boundary>
+    <wall label="top_lid" field_id="none">
+      <velocity_pressure choice="on">
+        <dirichlet name="velocity" component="0">1</dirichlet>
+        <dirichlet name="velocity" component="1">0</dirichlet>
+        <dirichlet name="velocity" component="2">0</dirichlet>
+      </velocity_pressure>
+    </wall>
+    <wall label="no_slip" field_id="none">
+      <velocity_pressure choice="off"/>
+    </wall>
+    <symmetry label="symmetry" field_id="none"/>
+  </boundary_conditions>
+</Code_Saturne_GUI>
